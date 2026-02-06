@@ -48,11 +48,19 @@ const setCharacter = (
                 // Texture optimization
                 if (mesh.material) {
                   if (Array.isArray(mesh.material)) {
-                    mesh.material.forEach(m => {
-                      if (m.map) m.map.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    mesh.material.forEach((material) => {
+                      const textured = material as THREE.MeshStandardMaterial;
+                      if (textured.map) {
+                        textured.map.anisotropy =
+                          renderer.capabilities.getMaxAnisotropy();
+                      }
                     });
-                  } else if (mesh.material.map) {
-                    mesh.material.map.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                  } else {
+                    const textured = mesh.material as THREE.MeshStandardMaterial;
+                    if (textured.map) {
+                      textured.map.anisotropy =
+                        renderer.capabilities.getMaxAnisotropy();
+                    }
                   }
                 }
               }
